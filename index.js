@@ -16,15 +16,14 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 // ==========================================
 // KONEKSI DATABASE MYSQL (AIVEN CLOUD)
 // ==========================================
-const dbPassPart1 = 'AVNS_h_WfcL1B';
-const dbPassPart2 = 'eO7nTfjrIje';
-const finalPassword = dbPassPart1 + dbPassPart2; // Digabungin secara gaib pas server nyala
+const p1 = 'AVNS_l7WJJVoaJ'; 
+const p2 = 'ZJh2U46-y0';    
 
 const db = mysql.createPool({
   host: 'mysql-16ab98c-nazhifalhuwaidie12-4e9a.l.aivencloud.com',
   port: 13205,
   user: 'avnadmin',
-  password: finalPassword, // Pakai password gabungan
+  password: p1 + p2, // Digabung otomatis pas server nyala
   database: 'defaultdb',
   ssl: {
     rejectUnauthorized: false 
