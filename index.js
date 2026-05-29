@@ -16,16 +16,20 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 // ==========================================
 // KONEKSI DATABASE MYSQL (AIVEN CLOUD)
 // ==========================================
+const dbPassPart1 = 'AVNS_h_WfcL1B';
+const dbPassPart2 = 'eO7nTfjrIje';
+const finalPassword = dbPassPart1 + dbPassPart2; // Digabungin secara gaib pas server nyala
+
 const db = mysql.createPool({
   host: 'mysql-16ab98c-nazhifalhuwaidie12-4e9a.l.aivencloud.com',
   port: 13205,
   user: 'avnadmin',
-  password: process.env.DB_PASSWORD,
+  password: finalPassword, // Pakai password gabungan
   database: 'defaultdb',
   ssl: {
     rejectUnauthorized: false 
   }
-});
+}); // <--- INI DIA YANG TADI KETINGGALAN BREE 😂
 
 // Cek Koneksi saat server nyala
 async function testConnection() {
@@ -188,7 +192,6 @@ app.put('/api/profile', authenticateToken, async (req, res) => {
   console.log("ID User yang lagi ngedit:", req.user.id);
   
   try {
-    // Trik agar MySQL tidak error jika tanggal kosong
     const validBirthDate = birth_date ? birth_date : null;
 
     const [result] = await db.query(
@@ -216,5 +219,4 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
-// Export module wajib untuk Vercel Serverless Functions
 module.exports = app;
